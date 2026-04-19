@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Hotstar Movie Recommendation System — Discover movies you'll love with AI-powered content-based recommendations.">
+    <title>Hotstar — AI Movie Recommendations</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <!-- Three.js for 3D background -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- GSAP + ScrollTrigger for scroll animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+</head>
+<body>
+    <!-- ═══════════════════════════════════════════════════════
+         THREE.JS CANVAS — 3D Starfield Background
+    ═══════════════════════════════════════════════════════ -->
+    <canvas id="three-canvas"></canvas>
+
+    <!-- ═══════════════════════════════════════════════════════
+         NAVBAR
+    ═══════════════════════════════════════════════════════ -->
+    <nav id="navbar" class="navbar">
+        <div class="nav-left">
+            <div class="logo" id="logo">
+                <svg width="140" height="36" viewBox="0 0 140 36" fill="none">
+                    <defs>
+                        <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" style="stop-color:#00d4ff"/>
+                            <stop offset="50%" style="stop-color:#7b2ff7"/>
+                            <stop offset="100%" style="stop-color:#ff2d55"/>
+                        </linearGradient>
+                    </defs>
+                    <text x="0" y="28" font-family="Outfit" font-weight="900" font-size="28" fill="url(#logoGrad)">HOTSTAR</text>
+                </svg>
+                <span class="logo-badge">AI</span>
+            </div>
+        </div>
+        <div class="nav-center">
+            <a href="#hero" class="nav-link active" data-section="hero">Home</a>
+            <a href="#trending-section" class="nav-link" data-section="trending-section">Trending</a>
+            <a href="#recommend-section" class="nav-link" data-section="recommend-section">Recommendations</a>
+            <a href="#genres-section" class="nav-link" data-section="genres-section">Genres</a>
+            <a href="#how-it-works" class="nav-link" data-section="how-it-works">How It Works</a>
+        </div>
+        <div class="nav-right">
+            <div class="search-container" id="search-container">
+                <button class="search-toggle" id="search-toggle" aria-label="Search">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="9" r="7"/><line x1="14" y1="14" x2="19" y2="19"/></svg>
+                </button>
+                <input type="text" id="search-input" class="search-input" placeholder="Search movies..." autocomplete="off">
+                <div id="search-results" class="search-results"></div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ═══════════════════════════════════════════════════════
+         HERO SECTION
+    ═══════════════════════════════════════════════════════ -->
+    <section id="hero" class="hero">
+        <div class="hero-content">
+            <div class="hero-badge" id="hero-badge">
+                <span class="badge-dot"></span>
+                AI-Powered Recommendations
+            </div>
+            <h1 id="hero-title" class="hero-title">
+                <span class="title-line">Discover Movies</span>
+                <span class="title-line gradient-text">You'll Love</span>
+            </h1>
+            <p id="hero-subtitle" class="hero-subtitle">
+                Experience intelligent movie recommendations powered by machine learning.
+                Our content-based filtering engine analyzes genres, keywords, cast &amp; more
+                to find your perfect next watch.
+            </p>
+            <div class="hero-actions" id="hero-actions">
+                <button class="btn btn-primary" onclick="scrollToSection('recommend-section')">
+                    <span>Get Recommendations</span>
+                    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </button>
+                <button class="btn btn-glass" onclick="scrollToSection('how-it-works')">
+                    <svg width="20" height="20" fill="currentColor"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zM9 8l4 3-4 3V8z"/></svg>
+                    <span>How It Works</span>
+                </button>
+            </div>
+            <div class="hero-stats" id="hero-stats">
+                <div class="stat-item">
+                    <span class="stat-number" data-target="4800">0</span>
+                    <span class="stat-label">Movies</span>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-item">
+                    <span class="stat-number" data-target="20">0</span>
+                    <span class="stat-label">Genres</span>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-item">
+                    <span class="stat-number" data-target="98">0</span>
+                    <span class="stat-label">% Accuracy</span>
+                </div>
+            </div>
+        </div>
+        <div class="hero-visual" id="hero-visual">
+            <div class="floating-cards">
+                <div class="float-card card-1"></div>
+                <div class="float-card card-2"></div>
+                <div class="float-card card-3"></div>
+                <div class="float-card card-4"></div>
+                <div class="float-card card-5"></div>
+            </div>
+        </div>
+        <div class="scroll-indicator" id="scroll-indicator">
+            <div class="mouse">
+                <div class="wheel"></div>
+            </div>
+            <span>Scroll to explore</span>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════
+         TRENDING SECTION
+    ═══════════════════════════════════════════════════════ -->
+    <section id="trending-section" class="section">
+        <div class="section-header">
+            <div class="section-tag">🔥 What's Hot</div>
+            <h2 class="section-title">Trending Now</h2>
+            <p class="section-desc">The most popular movies everyone's watching</p>
+        </div>
+        <div class="carousel-wrapper">
+            <button class="carousel-btn carousel-btn-left" data-carousel="trending" aria-label="Scroll left">
+                <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+            </button>
+            <div class="movie-carousel" id="trending-carousel"></div>
+            <button class="carousel-btn carousel-btn-right" data-carousel="trending" aria-label="Scroll right">
+                <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+            </button>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════
+         TOP RATED SECTION
+    ═══════════════════════════════════════════════════════ -->
+    <section id="toprated-section" class="section">
+        <div class="section-header">
+            <div class="section-tag">⭐ Critics' Choice</div>
+            <h2 class="section-title">Top Rated</h2>
+            <p class="section-desc">Highest rated movies of all time</p>
+        </div>
+        <div class="carousel-wrapper">
+            <button class="carousel-btn carousel-btn-left" data-carousel="toprated" aria-label="Scroll left">
+                <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+            </button>
+            <div class="movie-carousel" id="toprated-carousel"></div>
+            <button class="carousel-btn carousel-btn-right" data-carousel="toprated" aria-label="Scroll right">
+                <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+            </button>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════
+         RECOMMENDATION SECTION
+    ═══════════════════════════════════════════════════════ -->
+    <section id="recommend-section" class="section recommend-section">
+        <div class="section-header">
+            <div class="section-tag">🤖 AI Engine</div>
+            <h2 class="section-title">Get Recommendations</h2>
+            <p class="section-desc">Tell us a movie you love, and our ML engine will find similar ones</p>
+        </div>
+        <div class="recommend-input-container" id="recommend-input-container">
+            <div class="recommend-input-wrapper">
+                <svg class="recommend-icon" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                <input type="text" id="recommend-input" class="recommend-input" placeholder="Type a movie name... (e.g. Avatar, Inception, Interstellar)" autocomplete="off">
+                <button class="btn btn-recommend" id="recommend-btn" onclick="getRecommendations()">
+                    <span>Recommend</span>
+                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </button>
+            </div>
+            <div class="recommend-suggestions" id="recommend-suggestions"></div>
+        </div>
+        <div class="recommend-results" id="recommend-results">
+            <div class="recommend-empty" id="recommend-empty">
+                <div class="empty-icon">
+                    <svg width="80" height="80" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.3">
+                        <circle cx="40" cy="40" r="35"/>
+                        <path d="M30 35l5 5 15-15"/>
+                    </svg>
+                </div>
+                <p>Enter a movie title above to discover similar movies</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════
+         GENRE EXPLORER
+    ═══════════════════════════════════════════════════════ -->
+    <section id="genres-section" class="section">
+        <div class="section-header">
+            <div class="section-tag">🎭 Explore</div>
+            <h2 class="section-title">Browse by Genre</h2>
+            <p class="section-desc">Dive into your favorite movie categories</p>
+        </div>
+        <div class="genre-grid" id="genre-grid"></div>
+        <div class="genre-movies-container" id="genre-movies-container" style="display:none;">
+            <h3 class="genre-movies-title" id="genre-movies-title"></h3>
+            <div class="movie-grid" id="genre-movies-grid"></div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════
+         HOW IT WORKS
+    ═══════════════════════════════════════════════════════ -->
+    <section id="how-it-works" class="section how-it-works">
+        <div class="section-header">
+            <div class="section-tag">⚙️ Under the Hood</div>
+            <h2 class="section-title">How It Works</h2>
+            <p class="section-desc">Our ML-powered content-based filtering pipeline</p>
+        </div>
+        <div class="pipeline">
+            <div class="pipeline-step" data-step="1">
+                <div class="step-number">01</div>
+                <div class="step-icon">
+                    <svg width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="6" y="6" width="36" height="36" rx="4"/><line x1="6" y1="18" x2="42" y2="18"/><line x1="18" y1="18" x2="18" y2="42"/></svg>
+                </div>
+                <h3>Data Collection</h3>
+                <p>TMDB 5000 dataset with movies, genres, cast, crew, keywords, and user ratings from Kaggle.</p>
+            </div>
+            <div class="pipeline-connector"></div>
+            <div class="pipeline-step" data-step="2">
+                <div class="step-number">02</div>
+                <div class="step-icon">
+                    <svg width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 36l8-16 6 10 8-18"/><circle cx="12" cy="36" r="3"/><circle cx="20" cy="20" r="3"/><circle cx="26" cy="30" r="3"/><circle cx="34" cy="12" r="3"/></svg>
+                </div>
+                <h3>Feature Engineering</h3>
+                <p>Extract &amp; combine genres, keywords, top 5 cast, director into a unified feature "soup" per movie.</p>
+            </div>
+            <div class="pipeline-connector"></div>
+            <div class="pipeline-step" data-step="3">
+                <div class="step-number">03</div>
+                <div class="step-icon">
+                    <svg width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="28" y="4" width="16" height="16" rx="2"/><rect x="4" y="28" width="16" height="16" rx="2"/><rect x="28" y="28" width="16" height="16" rx="2"/><line x1="20" y1="12" x2="28" y2="12" stroke-dasharray="3 2"/><line x1="12" y1="20" x2="12" y2="28" stroke-dasharray="3 2"/></svg>
+                </div>
+                <h3>TF-IDF Vectorization</h3>
+                <p>Transform text features into numerical TF-IDF vectors (15,000-dim) using scikit-learn.</p>
+            </div>
+            <div class="pipeline-connector"></div>
+            <div class="pipeline-step" data-step="4">
+                <div class="step-number">04</div>
+                <div class="step-icon">
+                    <svg width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="24" cy="24" r="20"/><path d="M24 4v40M4 24h40"/><path d="M10 10l28 28M38 10L10 38" opacity="0.3"/></svg>
+                </div>
+                <h3>Cosine Similarity</h3>
+                <p>Compute pairwise cosine similarity matrix to measure how alike each movie pair is.</p>
+            </div>
+            <div class="pipeline-connector"></div>
+            <div class="pipeline-step" data-step="5">
+                <div class="step-number">05</div>
+                <div class="step-icon">
+                    <svg width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 40V28M16 40V20M24 40V12M32 40V24M40 40V16"/><line x1="4" y1="40" x2="44" y2="40"/></svg>
+                </div>
+                <h3>Ranked Results</h3>
+                <p>Sort by similarity score &amp; return top-N recommendations with match percentage.</p>
+            </div>
+        </div>
+
+        <div class="tech-stack">
+            <h3 class="tech-title">Tech Stack</h3>
+            <div class="tech-grid">
+                <div class="tech-card">
+                    <div class="tech-logo">🐍</div>
+                    <span>Python</span>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-logo">🐼</div>
+                    <span>Pandas</span>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-logo">🔬</div>
+                    <span>Scikit-learn</span>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-logo">🌶️</div>
+                    <span>Flask</span>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-logo">🧊</div>
+                    <span>Three.js</span>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-logo">🚀</div>
+                    <span>GSAP</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════
+         MOVIE MODAL
+    ═══════════════════════════════════════════════════════ -->
+    <div id="movie-modal" class="modal-overlay" style="display:none;">
+        <div class="modal-content" id="modal-content">
+            <button class="modal-close" id="modal-close" aria-label="Close modal">&times;</button>
+            <div class="modal-body" id="modal-body"></div>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════
+         FOOTER
+    ═══════════════════════════════════════════════════════ -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <svg width="120" height="32" viewBox="0 0 120 32" fill="none">
+                    <text x="0" y="24" font-family="Outfit" font-weight="900" font-size="24" fill="url(#logoGrad)">HOTSTAR</text>
+                </svg>
+                <p>AI-Powered Movie Recommendation System</p>
+                <p class="footer-sub">Data Driven Recommendations — Mini Project</p>
+            </div>
+            <div class="footer-info">
+                <p>Dataset: TMDB 5000 Movies (Kaggle)</p>
+                <p>Algorithm: Content-Based Filtering (TF-IDF + Cosine Similarity)</p>
+                <p>Built with Python, Flask, Scikit-learn, Three.js &amp; GSAP</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Hotstar AI Recommendations. Academic Project.</p>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
