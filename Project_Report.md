@@ -132,7 +132,7 @@ TF-IDF is a statistical measure used to evaluate the importance of a word within
 
 **Formula:**
 
-![TF-IDF Formula — Shows TF-IDF(t,d) = TF(t,d) × IDF(t), with TF and IDF component breakdowns](C:\Users\Administrator\.gemini\antigravity\brain\c600c0eb-9cf0-4467-ab6d-9edf3146c4e7\artifacts\tfidf_formula.png)
+![TF-IDF Formula — Shows TF-IDF(t,d) = TF(t,d) × IDF(t), with TF and IDF component breakdowns](docs/images/tfidf_formula.png)
 
 ```
 TF-IDF(t, d)  =  TF(t, d)  ×  IDF(t)
@@ -158,7 +158,7 @@ Cosine Similarity measures the cosine of the angle between two vectors in multi-
 
 **Formula:**
 
-![Cosine Similarity Formula — Shows the dot product of vectors A and B divided by the product of their magnitudes](C:\Users\Administrator\.gemini\antigravity\brain\c600c0eb-9cf0-4467-ab6d-9edf3146c4e7\artifacts\cosine_formula.png)
+![Cosine Similarity Formula — Shows the dot product of vectors A and B divided by the product of their magnitudes](docs/images/cosine_formula.png)
 
 ```
                               A · B                    Σ (Aᵢ × Bᵢ)

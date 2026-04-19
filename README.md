@@ -8,13 +8,13 @@ A **data-driven movie recommendation system** for the Hotstar platform featuring
 ## Screenshots
 
 ````carousel
-![Hero Section — 3D starfield background with floating cards and animated stats](C:\Users\Administrator\.gemini\antigravity\brain\c600c0eb-9cf0-4467-ab6d-9edf3146c4e7\.system_generated\click_feedback\click_feedback_1776156017167.png)
+![Hero Section — 3D starfield background with floating cards and animated stats](docs/images/hero_section.png)
 <!-- slide -->
-![AI Recommendation Engine — Search for any movie and get ML-powered similar movie suggestions](C:\Users\Administrator\.gemini\antigravity\brain\c600c0eb-9cf0-4467-ab6d-9edf3146c4e7\.system_generated\click_feedback\click_feedback_1776156074855.png)
+![AI Recommendation Engine — Search for any movie and get ML-powered similar movie suggestions](docs/images/recommendation.png)
 <!-- slide -->
-![Browse by Genre — 20+ genre categories with emoji icons and glassmorphism cards](C:\Users\Administrator\.gemini\antigravity\brain\c600c0eb-9cf0-4467-ab6d-9edf3146c4e7\.system_generated\click_feedback\click_feedback_1776156147671.png)
+![Browse by Genre — 20+ genre categories with emoji icons and glassmorphism cards](docs/images/genres.png)
 <!-- slide -->
-![How It Works — 5-step ML pipeline visualization from data collection to ranked results](C:\Users\Administrator\.gemini\antigravity\brain\c600c0eb-9cf0-4467-ab6d-9edf3146c4e7\.system_generated\click_feedback\click_feedback_1776156123375.png)
+![How It Works — 5-step ML pipeline visualization from data collection to ranked results](docs/images/pipeline.png)
 ````
 
 ---
